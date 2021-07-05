@@ -41,7 +41,9 @@ Route::middleware('auth:api')->group(function(){
 
 });
 
-Route::get('products/{name}', [ProductController::class, 'search']);
+Route::get('products{name}', [ProductController::class, 'search']);
+Route::get('products/s/{name}', [ProductController::class, 'search']);
 Route::apiResource('products', ProductController::class);
-Route::get('customers/{name}', [CustomerController::class, 'search']);
+Route::get('customers{name}', [CustomerController::class, 'search']);
+Route::get('customers/s/{name}', [CustomerController::class, 'search']);
 Route::apiResource('customers', CustomerController::class);

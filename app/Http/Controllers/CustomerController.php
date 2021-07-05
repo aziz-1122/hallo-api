@@ -99,8 +99,8 @@ class CustomerController extends Controller
 
     public function search($name)
     {
-        // $product = Customer::where('customer_name', 'like', '%' . $name . '%')->get();
-        $customer = Customer::where('customer_name', 'like', '%' . $name . '%')->orWhere('customer_id', $name)->get();
+        $customer = Customer::where('customer_name', 'like', '%' . $name . '%')->get();
+        // $customer = Customer::where('customer_name', 'like', '%' . $name . '%')->orWhere('customer_id', $name)->get();
         return CustomerResource::collection($customer);
     }
 }
