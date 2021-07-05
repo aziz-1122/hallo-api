@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class CustomerController extends Controller
     public function index()
     {
         $product = Customer::all();
-        return $product;
+        return CustomerResource::collection($product);
     }
 
     /**
@@ -52,8 +53,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        $data = $customer->toArray();
-        return $data;
+        return new CustomerResource($customer);
     }
 
     /**
@@ -99,7 +99,8 @@ class CustomerController extends Controller
 
     public function search($name)
     {
-        $product = Customer::where('customer_name', 'like', '%' . $name . '%')->get();
-        return $product->toArray();
+        // $product = Customer::where('customer_name', 'like', '%' . $name . '%')->get();
+        $customer = Customer::where('customer_name', 'like', '%' . $name . '%')->orWhere('customer_id', $name)->get();
+        return CustomerResource::collection($customer);
     }
 }

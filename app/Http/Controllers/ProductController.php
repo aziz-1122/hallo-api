@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -16,7 +17,7 @@ class ProductController extends Controller
     public function index()
     {
         $product = Product::all();
-        return $product;
+        return ProductResource::collection(Product::all());
     }
 
     /**
@@ -54,8 +55,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $data = $product->toArray();
-        return $data;
+        return new ProductResource($product);
     }
 
     /**
@@ -101,7 +101,8 @@ class ProductController extends Controller
 
     public function search($name)
     {
-        $product = Product::where('product_name', 'like', '%' . $name . '%')->get();
-        return $product->toArray();
+        // $product = Product::where('product_name', 'like', '%' . $name . '%')->get();
+        $product = Product::where('product_name', 'like', '%' . $name . '%')->orWhere('product_id', $name)->get();
+        return ProductResource::collection($product);
     }
 }
